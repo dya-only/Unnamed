@@ -1,15 +1,50 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { Fragment } from 'react'
 import { Inter } from '@next/font/google'
-// import BG from '../assets/bg.png'
+import { Fragment, useEffect, useState } from 'react'
+import styled from "styled-components";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import Xlsx from 'read-excel-file/node'
+
 import CardImg from '../assets/card.jpg'
 
 import Nav from './nav'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home({ data }: any) {
+export default function Home({ daily }: any) {
+
+  const [week, setWeek] = useState('')
+  const [horizontal, setHorizontal] = useState(475)
+  let HorizontalProgress = styled.div`
+    width: 1600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto;
+
+    transition: all 1s;
+    // transform: translateX(${horizontal}%);
+  `
+
+  // const onClickPrev = () => {
+  //   if (horizontal > 475) {
+  //     setHorizontal((horizontal) => horizontal + 10)
+  //   }
+  // }
+  // const onClickNext = () => {
+  //   if (horizontal < 1000) {
+  //     setHorizontal((horizontal) => horizontal - 10)
+  //   }
+  // }
+
+  useEffect(() => {
+    const day = new Date()
+    const WeekDay = ['일', '월', '화', '수', '목', '금', '토']
+    setWeek(WeekDay[day.getDay()])
+  }, [])
+
   return (
     <Fragment>
       <Head>
@@ -37,44 +72,25 @@ export default function Home({ data }: any) {
         <div className="cards">
 
           <div className="card-sub">
-            <div className="bg-info-text">오늘 방영되는 애니</div>
+            <div className="bg-info-text">오늘({week}요일) 방영예정 애니</div>
           </div>
 
           <div className="card-contain">
-            <div className="card">
-              <Image className='card-img' src={ CardImg } alt='' />
-              <div className="card-title">원신하고싶다</div>
-            </div>
-
-            <div className="card">
-              <Image className='card-img' src={ CardImg } alt='' />
-              <div className="card-title">원신하고싶다</div>
-            </div>
-
-            <div className="card">
-              <Image className='card-img' src={ CardImg } alt='' />
-              <div className="card-title">원신하고싶다</div>
-            </div>
-
-            <div className="card">
-              <Image className='card-img' src={ CardImg } alt='' />
-              <div className="card-title">원신하고싶다</div>
-            </div>
-
-            <div className="card">
-              <Image className='card-img' src={ CardImg } alt='' />
-              <div className="card-title">원신하고싶다</div>
-            </div>
-
-            <div className="card">
-              <Image className='card-img' src={ CardImg } alt='' />
-              <div className="card-title">원신하고싶다</div>
-            </div>
+            <HorizontalProgress>
+              { daily.map((el: any) => (
+                <div className="card">
+                  <Image className='card-img' src={ CardImg } alt='' />
+                  <div className="text-contain">
+                    <div className="card-title">{ el.title }</div>
+                    {/* <div className="card-week">방영 요일: <strong>{ el.week }요일</strong></div> */}
+                  </div>
+                </div>
+              )) }
+            </HorizontalProgress>
           </div>
         </div>
 
         <div className="props">
-          { data.title }
         </div>
 
       </main>
@@ -82,15 +98,15 @@ export default function Home({ data }: any) {
   )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const res = await fetch('http://localhost:3000/api/daily', {
-    method: 'POST',
+    method: 'GET',
     headers: {
         "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ day: `0` })
+    }
   })
   const data = await res.json()
+  console.log(data.data)
 
-  return { props: { data } };
+  return { props: { daily: data.data } }
 }

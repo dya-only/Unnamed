@@ -9,7 +9,7 @@ export default function Nav() {
   const handleFollow = () => {
     setScrollY(window.pageYOffset)
 
-    if (ScrollY > 200) {
+    if (ScrollY > 100) {
       setIsUnder("_nav_")
     } else {
       setIsUnder("_nav")
