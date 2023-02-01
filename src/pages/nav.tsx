@@ -16,7 +16,6 @@ export default function Nav() {
     }
   }
 
-
   useEffect(() => {
     const watch = () => {
       window.addEventListener('scroll', handleFollow)

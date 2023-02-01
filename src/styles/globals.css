@@ -145,7 +145,7 @@ body {
 .card-contain {
   width: 1600px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   overflow-x: auto;
 
@@ -201,16 +201,6 @@ body {
   color: rgb(20, 20, 20);
 }
 
-.props {
-  color: black;
-  font-weight: bold;
-  font-size: 20px;
-  display: flex;
-  justify-content: center;
-  margin-top: 100px;
-  margin-bottom: 100px;
-}
-
 .btn-contain {
   width: 500px;
   height: 500px;
@@ -253,4 +243,32 @@ body {
 .prev:active {
   scale: 90%;
   transition: all .1s;
+}
+
+.loading {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 30px; 
+}
+
+.spinner {
+  width: 50px;
+  animation-name: spin;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in;
+}
+
+@keyframes spin {
+  from {
+    transform: rotateX(0deg);
+  }
+
+  to {
+    transform: rotateX(360deg);
+  }
 }

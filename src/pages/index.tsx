@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Image from 'next/image'
+// import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import styled from "styled-components";
@@ -10,13 +10,18 @@ import Xlsx from 'read-excel-file/node'
 import CardImg from '../assets/card.jpg'
 
 import Nav from './nav'
+import Loading from './loading'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home({ daily }: any) {
+export default function Home() {  // { daily, images }: any
+
+  const [daily, setDaily]: any = useState([])
+  const [images, setImages] = useState([])
 
   const [week, setWeek] = useState('')
-  const horizontalScrollRef = useRef<null | any>(null);
+  const [Load, setLoad] = useState(true)
+  const horizontalScrollRef = useRef<null | any>(null)
 
   const handleNextButtonClick = (nextType: 'prev' | 'next') => {
     if (!horizontalScrollRef.current) return;
@@ -24,22 +29,42 @@ export default function Home({ daily }: any) {
         horizontalScrollRef.current.scrollTo({
           left: horizontalScrollRef.current.scrollLeft - horizontalScrollRef.current.offsetWidth,
           behavior: 'smooth',
-        });
+        })
       } else {
         horizontalScrollRef.current.scrollTo({
           left: horizontalScrollRef.current.scrollLeft + horizontalScrollRef.current.offsetWidth,
           behavior: 'smooth',
-        });
+        })
       }
-  };
+  }
+
+  const getDaily = async () => {
+    const res = await fetch('http://localhost:3000/api/daily', {
+      method: 'GET',
+      headers: {
+          "Content-Type": "application/json",
+      }
+    })
+    setDaily(await res.json())
+    setImages(daily.images)
+  }
 
   useEffect(() => {
+    getDaily()
+    console.log(daily)
+
     const day = new Date()
     const WeekDay = ['일', '월', '화', '수', '목', '금', '토']
     setWeek(WeekDay[day.getDay()])
+
+    setTimeout(()=>{
+      setLoad(false)
+    }, 1000)
+
   }, [])
 
   return (
+    Load ? <Loading /> :
     <Fragment>
       <Head>
         <title>Create Next App</title>
@@ -73,24 +98,21 @@ export default function Home({ daily }: any) {
             <button className='prev' onClick={ () => handleNextButtonClick('prev') }>
               <FontAwesomeIcon icon={faArrowLeft} />
             </button>
-            <div className="card-contain" ref={horizontalScrollRef}>
-                { daily.map((el: any) => (
+            {/* <div className="card-contain" ref={horizontalScrollRef}>
+                { daily.map((el: any, idx: number) => (
                   <div className="card">
-                    <Image className='card-img' src={ CardImg } alt='' />
+                    <img className='card-img' src={ images[idx] || CardImg } />
                     <div className="text-contain">
                       <div className="card-title">{ el.title }</div>
                       <div className="card-week">방영 요일: <strong>{ el.week }요일</strong></div>
                     </div>
                   </div>
                 )) }
-            </div>
+            </div> */}
             <button className='next' onClick={ () => handleNextButtonClick('next') }>
             <FontAwesomeIcon icon={faArrowRight} />
             </button>
           </div>
-        </div>
-
-        <div className="props">
         </div>
 
       </main>
@@ -98,15 +120,14 @@ export default function Home({ daily }: any) {
   )
 }
 
-export async function getStaticProps() {
-  const res = await fetch('http://localhost:3000/api/daily', {
-    method: 'GET',
-    headers: {
-        "Content-Type": "application/json",
-    }
-  })
-  const data = await res.json()
-  console.log(data.data)
+// export async function getStaticProps() {
+//   const res = await fetch('http://localhost:3000/api/daily', {
+//     method: 'GET',
+//     headers: {
+//         "Content-Type": "application/json",
+//     }
+//   })
+//   const data = await res.json()
 
-  return { props: { daily: data.data } }
-}
+//   return { props: { daily: data.data, images: data.images } }
+// }
