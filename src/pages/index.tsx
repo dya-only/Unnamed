@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import styled from "styled-components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
@@ -16,28 +16,22 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Home({ daily }: any) {
 
   const [week, setWeek] = useState('')
-  const [horizontal, setHorizontal] = useState(475)
-  let HorizontalProgress = styled.div`
-    width: 1600px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow-x: auto;
+  const horizontalScrollRef = useRef<null | any>(null);
 
-    transition: all 1s;
-    // transform: translateX(${horizontal}%);
-  `
-
-  // const onClickPrev = () => {
-  //   if (horizontal > 475) {
-  //     setHorizontal((horizontal) => horizontal + 10)
-  //   }
-  // }
-  // const onClickNext = () => {
-  //   if (horizontal < 1000) {
-  //     setHorizontal((horizontal) => horizontal - 10)
-  //   }
-  // }
+  const handleNextButtonClick = (nextType: 'prev' | 'next') => {
+    if (!horizontalScrollRef.current) return;
+      if (nextType === 'prev') {
+        horizontalScrollRef.current.scrollTo({
+          left: horizontalScrollRef.current.scrollLeft - horizontalScrollRef.current.offsetWidth,
+          behavior: 'smooth',
+        });
+      } else {
+        horizontalScrollRef.current.scrollTo({
+          left: horizontalScrollRef.current.scrollLeft + horizontalScrollRef.current.offsetWidth,
+          behavior: 'smooth',
+        });
+      }
+  };
 
   useEffect(() => {
     const day = new Date()
@@ -75,18 +69,24 @@ export default function Home({ daily }: any) {
             <div className="bg-info-text">오늘({week}요일) 방영예정 애니</div>
           </div>
 
-          <div className="card-contain">
-            <HorizontalProgress>
-              { daily.map((el: any) => (
-                <div className="card">
-                  <Image className='card-img' src={ CardImg } alt='' />
-                  <div className="text-contain">
-                    <div className="card-title">{ el.title }</div>
-                    {/* <div className="card-week">방영 요일: <strong>{ el.week }요일</strong></div> */}
+          <div className="card-contain-contain">
+            <button className='prev' onClick={ () => handleNextButtonClick('prev') }>
+              <FontAwesomeIcon icon={faArrowLeft} />
+            </button>
+            <div className="card-contain" ref={horizontalScrollRef}>
+                { daily.map((el: any) => (
+                  <div className="card">
+                    <Image className='card-img' src={ CardImg } alt='' />
+                    <div className="text-contain">
+                      <div className="card-title">{ el.title }</div>
+                      <div className="card-week">방영 요일: <strong>{ el.week }요일</strong></div>
+                    </div>
                   </div>
-                </div>
-              )) }
-            </HorizontalProgress>
+                )) }
+            </div>
+            <button className='next' onClick={ () => handleNextButtonClick('next') }>
+            <FontAwesomeIcon icon={faArrowRight} />
+            </button>
           </div>
         </div>
 
