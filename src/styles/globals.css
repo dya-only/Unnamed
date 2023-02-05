@@ -129,6 +129,23 @@ body {
   border-color: rgb(180, 180, 180);
 }
 
+.change-btn {
+  outline: none;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgb(22, 123, 255);
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  font-size: 18px;
+  cursor: pointer;
+}
+.tests {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .bg-info-text {
   font-weight: bold;
   font-size: 25px;
@@ -139,15 +156,17 @@ body {
   flex-direction: column;
   width: 100vw;
   align-items: center;
+  margin-bottom: 500px;
 
 }
 
 .card-contain {
-  width: 1600px;
+  width: 80vw;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   overflow-x: auto;
+  overflow-x: hidden;
 
   transition: all 1s;
 }
@@ -161,9 +180,10 @@ body {
 .card {
   margin: 40px;
   border-radius: 20px;
+  cursor: pointer;
   /* border: 1px solid rgb(187, 187, 187); */
-  /* box-shadow:  10px 10px 40px #bebebe,
-    -20px -20px 60px #ffffff; */
+  box-shadow:  10px 10px 40px #bebebe,
+    -20px -20px 60px #ffffff;
 
   display: flex;
   flex-direction: column;

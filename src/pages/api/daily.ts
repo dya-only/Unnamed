@@ -16,26 +16,25 @@ export default async function handler(
     Title: "title",
     Day: "week",
   }
+
+  const Week = ['일', '월', '화', '수', '목', '금', '토']
   
   Xlsx('./src/assets/2023-1.xlsx', { map }).then(async ({ rows }: any) => {
+    const Today = Week[new Date().getDay()]
     let imgs: any = []
-
-    // rows.forEach((x: object, idx: number) => {
-    //   laftel.search(rows[0].title).then(result => {
-    //     imgs.push(result.results[idx].images[0].img_url)
-    //     // imgs = result.results[0].images[0].img_url
-    //     res.status(200).json({ data: rows, images: imgs })
-    //   })
-    // })
-
+    let animes: any = []
+    
     for (let i = 0; i < rows.length; i++) {
-      await laftel.search(rows[i].title).then((result) => {
+      if (rows[i].week === Today) animes.push(rows[i])
+    }
+
+    for (let j = 0; j < animes.length; j++) {
+      await laftel.search(animes[j].title).then((result) => {
         imgs.push(result.results[0].images[0].img_url)
-        // console.log('---------------------\n' + result.results[0].images[0].img_url)
-        // imgs = result.results[0].images[0].img_url
       })
     }
-    res.status(200).json({ data: rows, images: imgs })
+
+    res.status(200).json({ data: animes, images: imgs })
 
   })
 }

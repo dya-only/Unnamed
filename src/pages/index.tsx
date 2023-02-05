@@ -1,23 +1,15 @@
 import Head from 'next/head'
 // import Image from 'next/image'
-import { Inter } from '@next/font/google'
 import { Fragment, useEffect, useRef, useState } from 'react'
-import styled from "styled-components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
-import Xlsx from 'read-excel-file/node'
 
 import CardImg from '../assets/card.jpg'
 
 import Nav from './nav'
 import Loading from './loading'
 
-const inter = Inter({ subsets: ['latin'] })
-
-export default function Home() {  // { daily, images }: any
-
-  const [daily, setDaily]: any = useState([])
-  const [images, setImages] = useState([])
+export default function Home({ daily, images }: any) {
 
   const [week, setWeek] = useState('')
   const [Load, setLoad] = useState(true)
@@ -38,21 +30,7 @@ export default function Home() {  // { daily, images }: any
       }
   }
 
-  const getDaily = async () => {
-    const res = await fetch('http://localhost:3000/api/daily', {
-      method: 'GET',
-      headers: {
-          "Content-Type": "application/json",
-      }
-    })
-    setDaily(await res.json())
-    setImages(daily.images)
-  }
-
   useEffect(() => {
-    getDaily()
-    console.log(daily)
-
     const day = new Date()
     const WeekDay = ['일', '월', '화', '수', '목', '금', '토']
     setWeek(WeekDay[day.getDay()])
@@ -90,15 +68,18 @@ export default function Home() {  // { daily, images }: any
 
         <div className="cards">
 
-          <div className="card-sub">
-            <div className="bg-info-text">오늘({week}요일) 방영예정 애니</div>
+          <div className="tests">
+            <div className="card-sub">
+              <div className="bg-info-text">오늘({week}요일) 방영예정 애니</div>
+            </div>
+            {/* <button className="change-btn">표시 변경</button> */}
           </div>
 
           <div className="card-contain-contain">
             <button className='prev' onClick={ () => handleNextButtonClick('prev') }>
               <FontAwesomeIcon icon={faArrowLeft} />
             </button>
-            {/* <div className="card-contain" ref={horizontalScrollRef}>
+            <div className="card-contain" ref={horizontalScrollRef}>
                 { daily.map((el: any, idx: number) => (
                   <div className="card">
                     <img className='card-img' src={ images[idx] || CardImg } />
@@ -108,7 +89,7 @@ export default function Home() {  // { daily, images }: any
                     </div>
                   </div>
                 )) }
-            </div> */}
+            </div>
             <button className='next' onClick={ () => handleNextButtonClick('next') }>
             <FontAwesomeIcon icon={faArrowRight} />
             </button>
@@ -120,14 +101,14 @@ export default function Home() {  // { daily, images }: any
   )
 }
 
-// export async function getStaticProps() {
-//   const res = await fetch('http://localhost:3000/api/daily', {
-//     method: 'GET',
-//     headers: {
-//         "Content-Type": "application/json",
-//     }
-//   })
-//   const data = await res.json()
+export async function getStaticProps() {
+  const res = await fetch('http://localhost:3000/api/daily', {
+    method: 'GET',
+    headers: {
+        "Content-Type": "application/json",
+    }
+  })
+  const data = await res.json()
 
-//   return { props: { daily: data.data, images: data.images } }
-// }
+  return { props: { daily: data.data, images: data.images } }
+}
