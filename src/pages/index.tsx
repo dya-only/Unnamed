@@ -62,7 +62,7 @@ export default function Home({ daily, images }: any) {
         <div className="bg"></div>
 
         <div className="bg-info">
-          <div className="bg-info-text">이번 분기의 인기 애니를 확인해보세요</div>
+          <div className="bg-info-text">이번 분기의 <span className='colored'>인기</span> 애니를 확인해보세요</div>
           <button className="btn">확인하러 가기</button>
         </div>
 
@@ -70,7 +70,7 @@ export default function Home({ daily, images }: any) {
 
           <div className="tests">
             <div className="card-sub">
-              <div className="bg-info-text">오늘({week}요일) 방영예정 애니</div>
+              <div className="bg-info-text">오늘(<span className='colored colored-2'>{week}</span>요일) 방영예정 애니</div>
             </div>
             {/* <button className="change-btn">표시 변경</button> */}
           </div>
