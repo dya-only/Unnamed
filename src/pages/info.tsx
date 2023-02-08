@@ -1,28 +1,16 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import { Fragment, useEffect, useState } from 'react'
 
-export default function Info({ data }: any) {
+export default function Info(props: any) {
 
+  console.log(props)
   return (
     <div className="info-window">
-      <div className="">애니 정보 창</div>
-      {/* <div className="">id: { props.id }</div> */}
-      <div className="">{ data }</div>
-    </div>
+      <div className="">정보 창</div>
+      <img className='info-img' src={ props.img } alt="" />
+      <div className="">{ props.name }</div>
+      <div className="">방영 요일: { props.week }</div>
+      <div className="">장르: { props.genres }</div>
+    </div> 
   )
-}
-
-export async function getStaticProps(props: any) {
-  const res = await fetch('http://localhost:3000/api/info', {
-      method: 'POST',
-      headers: {
-          "Content-Type": "application/json",
-      },
-      body: props.id.toString()
-    })
-    const data = await res.json()
-    console.log(data)
-
-  return { data: { info: data.data } }
 }

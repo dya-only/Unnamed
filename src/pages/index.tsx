@@ -8,18 +8,20 @@ import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import CardImg from '../assets/card.jpg'
 
 import Nav from './nav'
+import Info from './info'
 import Loading from './loading'
 
-export default function Home({ daily, images, ids }: any) {
+export default function Home({ daily, images }: any) {
 
-  // let selectedInfo = {
-  //   name: '',
-  //   img: '',
-
-  // }
+  const [selectedInfo, setSelectedInfo] = useState({
+    name: '',
+    img: '',
+    distribute: '',
+    genres: []
+  })
 
   const [isInfoOpen , setIsInfoOpen] = useState(false)
-  const [infoPropId, setInfoPropId] = useState('')
+  let PropTitle: string = ""
 
   const [week, setWeek] = useState('')
   const [Load, setLoad] = useState(true)
@@ -41,15 +43,19 @@ export default function Home({ daily, images, ids }: any) {
   }
 
   const getInfo = async () => {
-    const res = await fetch('http://localhost:3000/api/info', {
-      method: 'POST',
+    const res = await fetch(`http://localhost:3000/api/info?name=${PropTitle}`, {
+      method: 'GET',
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name: infoPropId })
     })
     const data = await res.json()
-    console.log(data.anime)
+    setSelectedInfo({
+      name: data.anime.name,
+      img: data.anime.images[0].img_url,
+      distribute: data.anime.distributed_air_time,
+      genres: data.anime.genres
+    })
   }
 
   useEffect(() => {
@@ -73,13 +79,9 @@ export default function Home({ daily, images, ids }: any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      { isInfoOpen ? 
+      { isInfoOpen ?
         <div className="window-contain" onClick={ () => { setIsInfoOpen(false) } }>
-          <div className="info-window">
-            <div className="">정보 창</div>
-            {/* <div className="">id: { props.id }</div> */}
-            <div className="">{ infoPropId }</div>
-          </div>
+          <Info name={selectedInfo.name} img={selectedInfo.img} week={selectedInfo.distribute} genres={selectedInfo.genres} />
         </div>
       : null }
 
@@ -113,7 +115,7 @@ export default function Home({ daily, images, ids }: any) {
             </button>
             <div className="card-contain" ref={horizontalScrollRef}>
                 { daily.map((el: any, idx: number) => (
-                  <button className="card" onClick={ () => { setInfoPropId(el.title); getInfo(); setIsInfoOpen(true) } }>
+                  <button className="card" onClick={ () => { console.log(el.title); PropTitle = el.title; getInfo(); setIsInfoOpen(true) } }>
                     <img className='card-img' src={ images[idx] || CardImg } />
                     <div className="text-contain">
                       <div className="card-title">{ el.title }</div>
@@ -142,5 +144,5 @@ export async function getStaticProps() {
   })
   const data = await res.json()
 
-  return { props: { daily: data.data, images: data.images, ids: data.ids } }
+  return { props: { daily: data.data, images: data.images } }
 }
