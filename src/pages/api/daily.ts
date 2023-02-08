@@ -6,6 +6,7 @@ import laftel from 'laftel.js'
 type Data = {
   data: any
   images: any
+  ids: any
 }
 
 export default async function handler(
@@ -23,6 +24,7 @@ export default async function handler(
     const Today = Week[new Date().getDay()]
     let imgs: any = []
     let animes: any = []
+    let ids: any = []
     
     for (let i = 0; i < rows.length; i++) {
       if (rows[i].week === Today) animes.push(rows[i])
@@ -31,10 +33,11 @@ export default async function handler(
     for (let j = 0; j < animes.length; j++) {
       await laftel.search(animes[j].title).then((result) => {
         imgs.push(result.results[0].images[0].img_url)
+        ids.push(result.results[0].id)
       })
     }
 
-    res.status(200).json({ data: animes, images: imgs })
+    res.status(200).json({ data: animes, images: imgs, ids: ids })
 
   })
 }

@@ -1,6 +1,7 @@
 import Head from 'next/head'
-// import Image from 'next/image'
 import { Fragment, useEffect, useRef, useState } from 'react'
+import laftel from 'laftel.js'
+import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
@@ -9,7 +10,16 @@ import CardImg from '../assets/card.jpg'
 import Nav from './nav'
 import Loading from './loading'
 
-export default function Home({ daily, images }: any) {
+export default function Home({ daily, images, ids }: any) {
+
+  // let selectedInfo = {
+  //   name: '',
+  //   img: '',
+
+  // }
+
+  const [isInfoOpen , setIsInfoOpen] = useState(false)
+  const [infoPropId, setInfoPropId] = useState('')
 
   const [week, setWeek] = useState('')
   const [Load, setLoad] = useState(true)
@@ -28,6 +38,18 @@ export default function Home({ daily, images }: any) {
           behavior: 'smooth',
         })
       }
+  }
+
+  const getInfo = async () => {
+    const res = await fetch('http://localhost:3000/api/info', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: infoPropId })
+    })
+    const data = await res.json()
+    console.log(data.anime)
   }
 
   useEffect(() => {
@@ -50,6 +72,16 @@ export default function Home({ daily, images }: any) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      { isInfoOpen ? 
+        <div className="window-contain" onClick={ () => { setIsInfoOpen(false) } }>
+          <div className="info-window">
+            <div className="">정보 창</div>
+            {/* <div className="">id: { props.id }</div> */}
+            <div className="">{ infoPropId }</div>
+          </div>
+        </div>
+      : null }
 
       <Nav />
 
@@ -81,13 +113,13 @@ export default function Home({ daily, images }: any) {
             </button>
             <div className="card-contain" ref={horizontalScrollRef}>
                 { daily.map((el: any, idx: number) => (
-                  <div className="card">
+                  <button className="card" onClick={ () => { setInfoPropId(el.title); getInfo(); setIsInfoOpen(true) } }>
                     <img className='card-img' src={ images[idx] || CardImg } />
                     <div className="text-contain">
                       <div className="card-title">{ el.title }</div>
                       <div className="card-week">방영 요일: <strong>{ el.week }요일</strong></div>
                     </div>
-                  </div>
+                  </button>
                 )) }
             </div>
             <button className='next' onClick={ () => handleNextButtonClick('next') }>
@@ -106,9 +138,9 @@ export async function getStaticProps() {
     method: 'GET',
     headers: {
         "Content-Type": "application/json",
-    }
+    },
   })
   const data = await res.json()
 
-  return { props: { daily: data.data, images: data.images } }
+  return { props: { daily: data.data, images: data.images, ids: data.ids } }
 }
