@@ -88,11 +88,10 @@ export default function Home({ daily, images }: any) {
       <Nav />
 
       <main>
-        <nav className='nav'>
-          <div className="nav-title">Navbar</div>
-          <button className="btn">로그인</button>
-        </nav>
-
+        {/* <nav className='nav'> */}
+          {/* <div className="nav-title">Navbar</div>
+          <button className="btn">로그인</button> */}
+        {/* </nav> */}
         <div className="bg"></div>
 
         <div className="bg-info">
@@ -119,7 +118,7 @@ export default function Home({ daily, images }: any) {
                     <img className='card-img' src={ images[idx] || CardImg } />
                     <div className="text-contain">
                       <div className="card-title">{ el.title }</div>
-                      <div className="card-week">방영 요일: <strong>{ el.week }요일</strong></div>
+                      {/* <div className="card-week">방영 요일: <strong>{ el.week }요일</strong></div> */}
                     </div>
                   </button>
                 )) }
