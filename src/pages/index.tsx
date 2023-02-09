@@ -2,8 +2,9 @@ import Head from 'next/head'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import laftel from 'laftel.js'
 import axios from 'axios'
+import { useDrag } from 'react-use-gesture'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faArrowRight, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 import CardImg from '../assets/card.jpg'
 
@@ -13,6 +14,14 @@ import Loading from './loading'
 
 export default function Home({ daily, images }: any) {
 
+  const [xy, setXY] = useState({x: 100, y: 100})
+  const bindLogoPos = useDrag((params)=>{
+    setXY({
+      x: params.offset[0]+window.innerWidth/2.5,
+      y: params.offset[1]+window.innerHeight/2.5,
+    })
+  })
+
   const [selectedInfo, setSelectedInfo] = useState({
     name: '',
     img: '',
@@ -20,7 +29,7 @@ export default function Home({ daily, images }: any) {
     genres: []
   })
 
-  const [isInfoOpen , setIsInfoOpen] = useState(false)
+  const [open , setOpen] = useState(false)
   let PropTitle: string = ""
 
   const [week, setWeek] = useState('')
@@ -67,6 +76,7 @@ export default function Home({ daily, images }: any) {
       setLoad(false)
     }, 1000)
 
+    setXY({ x: window.innerWidth/2.5, y: window.innerHeight/2.5 })
   }, [])
 
   return (
@@ -79,9 +89,25 @@ export default function Home({ daily, images }: any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      { isInfoOpen ?
-        <div className="window-contain" onClick={ () => { setIsInfoOpen(false) } }>
-          <Info name={selectedInfo.name} img={selectedInfo.img} week={selectedInfo.distribute} genres={selectedInfo.genres} />
+      { open && window.innerWidth > 500 ?
+        <div className="window-contain">
+          {/* <Info name={selectedInfo.name} img={selectedInfo.img} week={selectedInfo.distribute} genres={selectedInfo.genres} /> */}
+          <div style={{ position: 'fixed', left: xy.x, top: xy.y }}>
+            <div className="title-window" { ...bindLogoPos() }>
+              <div className="window-title">{ selectedInfo.name }</div>
+              <div className="window-btns">
+                <button className='info-in-btn' onClick={() => { setOpen(false) }}><FontAwesomeIcon className='window-btn' icon={faXmark} /></button>
+
+              </div>
+            </div>
+            <div className="info-window">
+              <img className='info-img' src={ selectedInfo.img } alt="" />
+              <div className="">{ selectedInfo.name }</div>
+              <div className="">방영 요일: { selectedInfo.distribute }</div>
+              <div className="">장르: { selectedInfo.genres }</div>
+            </div> 
+          </div>
+
         </div>
       : null }
 
@@ -114,7 +140,7 @@ export default function Home({ daily, images }: any) {
             </button>
             <div className="card-contain" ref={horizontalScrollRef}>
                 { daily.map((el: any, idx: number) => (
-                  <button className="card" onClick={ () => { console.log(el.title); PropTitle = el.title; getInfo(); setIsInfoOpen(true) } }>
+                  <button className="card" onClick={ () => { console.log(el.title); PropTitle = el.title; getInfo(); setOpen(true) } }>
                     <img className='card-img' src={ images[idx] || CardImg } />
                     <div className="text-contain">
                       <div className="card-title">{ el.title }</div>

@@ -1,12 +1,16 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 import Vercel from '../assets/vercel.svg'
 
 export default function Loading() {
+
+  useEffect(() => {
+    sessionStorage.setItem('InfoWindow', 'false')
+  }, [])
 
   return (
     <Fragment>

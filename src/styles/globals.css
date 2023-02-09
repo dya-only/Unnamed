@@ -326,15 +326,46 @@ body {
   backdrop-filter: brightness(80%);
 }
 
+.title-window {
+  width: 500px;
+  height: 20px;
+  padding: 10px;
+  border-radius: 15px 15px 0px 0px;
+  background-color: rgba(34, 33, 44, 0.85);
+  backdrop-filter: blur(20px);
+  font-size: 15px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.window-title {
+  margin-left: 5px;
+}
+.window-btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+}
+.window-btn {
+  cursor: pointer;
+}
+.info-in-btn {
+  outline: 0;
+  border: 0;
+  color: white;
+  background: transparent;
+}
+
 .info-window {
   width: 500px;
-  height: 600px;
-  padding: 20px;
-  background: white;
+  height: 580px;
+  padding: 10px;
+  background: #1A1A24;
   /* background-color: hsla(0,0%,100%,.9);
   backdrop-filter: blur(20px); */
-  border-radius: 20px;
-  z-index: 60;
+  border-radius: 0px 0px 15px 15px;
 }
 
 .info-img {
