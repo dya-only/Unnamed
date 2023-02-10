@@ -4,6 +4,8 @@ import { Fragment, useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRightToBracket } from '@fortawesome/free-solid-svg-icons'
 
+import Logo from '../assets/logo.png'
+
 export default function Nav() {
   const [ScrollY, setScrollY] = useState(0)
   const [isUnder, setIsUnder] = useState("_nav_")
@@ -33,8 +35,10 @@ export default function Nav() {
     <Fragment>
       { isUnder ?
       <nav className={ isUnder }>
-        <div className="nav-title">Navbar</div>
-        {/* <button className="btn">로그인</button> */}
+        <div className="header-title">
+          <Image className='logo' src={Logo} alt={''} />
+          <div className="nav-title">애뉴미티</div>
+        </div>
         <FontAwesomeIcon className="icon" icon={faRightToBracket} />
       </nav>
       : null }

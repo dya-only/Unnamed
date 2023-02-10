@@ -4,6 +4,7 @@ import laftel from 'laftel.js'
 
 type Data = {
   anime: any
+  id: string
 }
 
 export default async function handler(
@@ -16,7 +17,7 @@ export default async function handler(
     await laftel.search(params.name).then(result => {
       const anime = result.results[0]
       laftel.getItem(anime.id).then(result => {
-          res.status(200).json({ anime: result })
+          res.status(200).json({ anime: result, id: anime.id })
       })
     })
   } else {

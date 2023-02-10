@@ -13,20 +13,22 @@ import Loading from './loading'
 
 export default function Home({ daily, images }: any) {
 
-  const [xy, setXY] = useState({x: 0, y: 0})
-  const bindLogoPos = useDrag((params)=>{
-    setXY({
-      x: params.offset[0]+window.innerWidth/2.5,
-      y: params.offset[1]+window.innerHeight/2.5,
-    })
-  })
+  // const [xy, setXY] = useState({x: 0, y: 0})
+  // const bindLogoPos = useDrag((params)=>{
+  //   setXY({
+  //     x: params.offset[0]+window.innerWidth/2.5,
+  //     y: params.offset[1]+window.innerHeight/2.5,
+  //   })
+  // })
 
   const [selectedInfo, setSelectedInfo] = useState({
+    id: '',
     name: '',
     img: '',
     content: '',
     distribute: '',
     year_quarter: '',
+    age: '',
     genres: []
   })
 
@@ -54,7 +56,6 @@ export default function Home({ daily, images }: any) {
   }
 
   const getInfo = async () => {
-
     setTimeout(()=>{
       setWindowLoad(false)
     }, 1000)
@@ -66,18 +67,21 @@ export default function Home({ daily, images }: any) {
       },
     })
     const data = await res.json()
+    console.log(data)
 
     let genres_temp = []
-    for (let i = 0; i < data.anime.main_tag.length; i++) {
+    for (let i = 0; i < 4; i++) {
       genres_temp.push(data.anime.main_tag[i].name)
     }
 
     setSelectedInfo({
+      id: data.id,
       name: data.anime.name,
       img: data.anime.img,
       content: data.anime.content,
       distribute: data.anime.animation_info.distributed_air_time,
       year_quarter: data.anime.animation_info.air_year_quarter,
+      age: data.anime.content_rating,
       genres: genres_temp
     })
   }
@@ -91,7 +95,7 @@ export default function Home({ daily, images }: any) {
       setLoad(false)
     }, 1000)
 
-    setXY({ x: window.innerWidth/2.5, y: window.innerHeight/2.5 })
+    // setXY({ x: window.innerWidth/2.5, y: window.innerHeight/2.5 })
   }, [])
 
   return (
@@ -106,9 +110,8 @@ export default function Home({ daily, images }: any) {
 
       { open && window.innerWidth > 500 ?
         <div className="window-contain">
-          {/* <Info name={selectedInfo.name} img={selectedInfo.img} week={selectedInfo.distribute} genres={selectedInfo.genres} /> */}
-          <div style={{ position: 'fixed', left: xy.x, top: xy.y }}>
-            <div className="title-window" { ...bindLogoPos() }>
+          <div>  {/* style={{ position: 'fixed', left: xy.x, top: xy.y }} */}
+            <div className="title-window">  {/* { ...bindLogoPos() } */}
               <div className="window-title">{ selectedInfo.name }</div>
               <div className="window-btns">
                 <button className='info-in-btn' onClick={() => { setOpen(false); setWindowLoad(true) }}><FontAwesomeIcon className='window-btn' icon={faXmark} /></button>
@@ -121,13 +124,28 @@ export default function Home({ daily, images }: any) {
                 </div>
               :
                 <Fragment>
-                  <img className='info-img' src={ selectedInfo.img } alt="" />
-                  <div className="">{ selectedInfo.name }</div>
-                  <div className="">방영 요일: { selectedInfo.distribute }</div>
-                  <div className="">장르: { selectedInfo.genres }</div>
+                  <div className="main-info">
+                    <img className='info-img' src={ selectedInfo.img } alt="" />
+                    <div className="">
+                      <div className="info-title">{ selectedInfo.name }</div>
+                      <div className="tags-info">
+                        { selectedInfo.genres.map((el: any, idx: number) => (
+                          <div className="tag">#{el}</div>
+                        )) }
+                      </div>
+                      <div className="lighter">방영 요일: <strong>{ selectedInfo.distribute }</strong></div>
+                      <div className="lighter">출시 구분: <strong>{ selectedInfo.year_quarter }</strong></div>
+                      <div className="lighter">장르: <strong>{ selectedInfo.genres[0] } · { selectedInfo.genres[1] }</strong></div>
+                      <button className='play' onClick={ () => window.open(`https://laftel.net/item/${selectedInfo.id}`) }>
+                        <div className="laftel-logo"></div>
+                        <div className="play-text">보러가기</div>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="info-content">{ selectedInfo.content }</div>
                 </Fragment>
               }
-            </div> 
+            </div>
           </div>
 
         </div>
@@ -151,7 +169,7 @@ export default function Home({ daily, images }: any) {
 
           <div className="tests">
             <div className="card-sub">
-              <div className="bg-info-text">오늘(<span className='colored colored-2'>{week}</span>요일) 방영예정 애니</div>
+              <div className="bg-info-text">오늘(<span className='colored colored-2'>{week}</span>요일) 신작 애니</div>
             </div>
             {/* <button className="change-btn">표시 변경</button> */}
           </div>
@@ -166,7 +184,6 @@ export default function Home({ daily, images }: any) {
                     <img className='card-img' src={ images[idx] || CardImg } />
                     <div className="text-contain">
                       <div className="card-title">{ el.title }</div>
-                      {/* <div className="card-week">방영 요일: <strong>{ el.week }요일</strong></div> */}
                     </div>
                   </button>
                 )) }

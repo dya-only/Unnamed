@@ -9,15 +9,31 @@ body {
   font-family: 'Inter', sans-serif;
   transition: all 1s;
   overflow-x: hidden;
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none
 }
 
 .content {
   height: 1500px;
 }
 
+.header-title {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
 .nav-title {
-  font-size: 20px;
-  /* font-weight: bold; */
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 6px;
+}
+.logo {
+  width: 13px;
+  height:13px;
+  padding-top: 4px;
 }
 
 .nav {
@@ -228,7 +244,7 @@ body {
   font-size: 20px;
   /* color: rgb(20, 20, 20); */
   color: white;
-  width: 300px;
+  width: 280px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -317,15 +333,14 @@ body {
   }
 }
 
-
 .window-contain {
   width: 100vw;
   height: 100vh;
   position: fixed;
 
-  /* display: flex;
+  display: flex;
   justify-content: center;
-  align-items: center; */
+  align-items: center;
   backdrop-filter: brightness(80%);
 }
 
@@ -365,12 +380,13 @@ body {
 
 .info-window {
   width: 500px;
-  height: 580px;
+  height: 500px;
   padding: 10px;
   background: #1A1A24;
   /* background-color: hsla(0,0%,100%,.9);
   backdrop-filter: blur(20px); */
   border-radius: 0px 0px 15px 15px;
+  overflow-y: auto;
 
   display: flex;
   flex-direction: column;
@@ -386,7 +402,75 @@ body {
   align-items: center;
 }
 
+.main-info {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  /* justify-content: center; */
+  align-items: center;
+}
 .info-img {
-  width: 200px;
+  width: 150px;
   border-radius: 10px;
+  margin-right: 20px;
+}
+
+.info-title {
+  font-weight: bold;
+  font-size: 24px;
+  /* margin-bottom: 10px; */
+  width: 210px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.lighter {
+  font-weight: lighter;
+}
+.tags-info {
+  display:flex;
+  flex-wrap:wrap;
+  margin-bottom: 10px;
+}
+.tag {
+  border-radius: 10px;
+  background: #22212A;
+  padding: 5px;
+  margin-right: 5px;
+  font-size: 12px;
+  font-weight: normal;
+}
+.info-content {
+  background: #22212A;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 360px;
+}
+.play {
+  outline: 0;
+  border: 0;
+
+  margin-top: 10px;
+  border-radius: 8px;
+  padding: 8px 8px 8px 8px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #6E58FF;
+  cursor: pointer;
+}
+.play-text {
+  font-weight: bold;
+  color: white;
+}
+.laftel-logo {
+  width: 30px;
+  height: 20px;
+  /* background-color: black; */
+  background-image: url('../assets/laftel.png');
+  background-size : contain;
+  margin-right: 6px;
 }
