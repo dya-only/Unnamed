@@ -295,6 +295,9 @@ body {
   font-weight: bold;
   font-size: 30px; 
 }
+.whitelogo {
+  filter: invert();
+}
 
 .spinner {
   width: 50px;
@@ -320,9 +323,9 @@ body {
   height: 100vh;
   position: fixed;
 
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   backdrop-filter: brightness(80%);
 }
 
@@ -340,7 +343,9 @@ body {
   align-items: center;
 }
 .window-title {
-  margin-left: 5px;
+  margin-left: 8px;
+  font-weight: bold;
+  font-size: 13px;
 }
 .window-btns {
   display: flex;
@@ -366,6 +371,19 @@ body {
   /* background-color: hsla(0,0%,100%,.9);
   backdrop-filter: blur(20px); */
   border-radius: 0px 0px 15px 15px;
+
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+.loading-window {
+  width: 500px;
+  height: 580px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .info-img {
