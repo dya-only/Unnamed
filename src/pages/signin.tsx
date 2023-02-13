@@ -8,7 +8,8 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons'
 
 import Nav from './nav'
 
-import GoogleLogo from '../assets/google-logo.png'
+import GoogleLogo from '../assets/google.png'
+import KakaoLogo from '../assets/kakao.png'
 
 export default function SignIn() {
   const [account, setAccount] = useState('')
@@ -82,7 +83,7 @@ export default function SignIn() {
           </button>
 
           <button className='kakao-btn' onClick={() => getKakaoOAuth()}>
-            {/* <Image className='google-logo' src={GoogleLogo} alt={''} /> */}
+            <Image className='kakao-logo' src={KakaoLogo} alt={''} />
             <div className="oauth-btn-text">카카오로 로그인</div>
           </button>
         </div>

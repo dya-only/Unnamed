@@ -129,6 +129,11 @@ body {
   align-items: center;
 }
 
+.kakao-logo {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+}
 .kakao-btn {
   background: rgb(255, 222, 73);
   color:rgba(27, 26, 37, 0.85);
