@@ -45,7 +45,7 @@ export default function Home({ daily, images }: any) {
   let PropTitle: string = ""
 
   const [openSearch, setOpenSearch] = useState(false)
-  const [searchValue, setSearchValue] = useState('')
+  let searchValue2 = ""
 
   const [week, setWeek] = useState('')
   const [Load, setLoad] = useState(true)
@@ -65,6 +65,14 @@ export default function Home({ daily, images }: any) {
           behavior: 'smooth',
         })
       }
+  }
+
+  const getChangeOnSearch = (title: string) => {
+    // setSearchValue(title)
+    searchValue2 = title
+    setWindowLoad(true)
+    getSearch()
+    setOpenSearch(true)
   }
 
   const getInfo = async () => {
@@ -101,9 +109,9 @@ export default function Home({ daily, images }: any) {
   const getSearch = async () => {
     setTimeout(()=>{
       setWindowLoad(false)
-    }, 1000)
+    }, 1500)
 
-    const res = await fetch(`http://localhost:3000/api/search?name=${searchValue}`, {
+    const res = await fetch(`http://localhost:3000/api/search?name=${searchValue2}`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -214,7 +222,7 @@ export default function Home({ daily, images }: any) {
         <div className="window-contain">
           <div>
             <div className="search-title-window">
-              <div className="window-title">{ searchValue }의 검색 결과</div>
+              <div className="window-title">{ searchValue2 }의 검색 결과</div>
               <div className="window-btns">
                 <button className='info-in-btn' onClick={() => { setOpenSearch(false); setWindowLoad(true) }}><FontAwesomeIcon className='window-btn' icon={faXmark} /></button>
               </div>
@@ -226,33 +234,6 @@ export default function Home({ daily, images }: any) {
                 </div>
               :
                 <div className='search-contain'>
-                  {/* <div className="search-card-contain">
-                    <button className="search-card">
-                      <img className='search-card-img' src={ searchSel.img } />
-                      <div className="text-contain">
-                        <div className="search-card-title">{ searchSel.name }</div>
-                      </div>
-                    </button>
-
-                    { searchSeries.map((el: any, idx: number) => (
-                      <button className="search-card">
-                        <img className='search-card-img' src={ el.images[0].img_url || CardImg } />
-                        <div className="text-contain">
-                          <div className="search-card-title">{ el.name }</div>
-                        </div>
-                      </button>
-                    )) }
-
-                    { searchRelated.map((el: any, idx: number) => (
-                      <button className="search-card">
-                        <img className='search-card-img' src={ el.images[0].img_url || CardImg } />
-                        <div className="text-contain">
-                          <div className="search-card-title">{ el.name }</div>
-                        </div>
-                      </button>
-                    )) }
-                  </div> */}
-
                   <div className="search-el">
                     <div className="search-bg"></div>
                     <ReactPlayer
@@ -291,7 +272,7 @@ export default function Home({ daily, images }: any) {
                     <div className="series-title">같은 시리즈의 작품</div>
                     <div className="series-contain">
                       { searchSeries.map((el: any, idx: number) => (
-                          <button className="search-card"> {/* onClick={ () => { console.log(el.name); setSearchValue(el.name); setWindowLoad(true); getSearch(); setOpenSearch(true) } } */}
+                          <button className="search-card" onClick={() => getChangeOnSearch(el.name)}>
                             <img className='search-card-img' src={ el.images[0].img_url || CardImg } />
                             <div className="text-contain">
                               <div className="search-card-title">{ el.name }</div>
@@ -303,7 +284,7 @@ export default function Home({ daily, images }: any) {
                     <div className="series-title">비슷한 작품</div>
                     <div className="series-contain">
                       { searchRelated.map((el: any, idx: number) => (
-                          <button className="search-card">
+                          <button className="search-card" onClick={() => getChangeOnSearch(el.name)}>
                             <img className='search-card-img' src={ el.images[0].img_url || CardImg } />
                             <div className="text-contain">
                               <div className="search-card-title">{ el.name }</div>
@@ -323,10 +304,6 @@ export default function Home({ daily, images }: any) {
       <Nav />
 
       <main>
-        {/* <nav className='nav'> */}
-          {/* <div className="nav-title">Navbar</div>
-          <button className="btn">로그인</button> */}
-        {/* </nav> */}
         <div className="bg"></div>
 
         <div className="bg-info">
@@ -334,12 +311,14 @@ export default function Home({ daily, images }: any) {
           <button className="btn">확인하러 가기</button>
         </div>
 
+        {/* Search Bar */}
         <div className="search">
-          <input className='search-input' type="text" onChange={(e: any) => setSearchValue(e.target.value)} />
+          <input className='search-input' type="text" onChange={(e: any) => searchValue2 = (e.target.value)} />
           <button className='search-btn' onClick={() => { setWindowLoad(true); getSearch(); setOpenSearch(true) } }>
             <FontAwesomeIcon className='search-icon' icon={faMagnifyingGlass} />
           </button>
         </div>
+          <div className="">{ searchValue2 }</div>
 
         <div className="cards">
           <div className="tests">
