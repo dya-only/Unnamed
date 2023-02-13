@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap');
 html,
 body {
   margin: 0;
@@ -6,7 +7,7 @@ body {
   /* background: #ffffff; */
   background: #1B1A25;
   color: white;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Quicksand', sans-serif;
   transition: all 1s;
   overflow-x: hidden;
 
@@ -36,6 +37,11 @@ body {
   width: 13px;
   height:13px;
   padding-top: 2.6px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: white;
 }
 
 .nav {
@@ -103,6 +109,7 @@ body {
 .sign-title {
   font-size: 25px;
   margin-bottom: 20px;
+  margin-top: -50px;
   /* font-weight: bold; */
 }
 
@@ -180,6 +187,34 @@ body {
 .icon:hover {
   color: white;
   transition: all .2s;
+}
+
+.icon-out {
+  color: #76747F;
+  font-size: 16px;
+  transition: all .2s;
+}
+.icon-out:hover {
+  color: rgb(255, 161, 161);
+  transition: all .2s;
+}
+
+.signOut {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  outline: 0;
+  border: 0;
+
+  background: transparent;
+}
+
+.user-name {
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  margin-right: 20px;
 }
 
 .bg {

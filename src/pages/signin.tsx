@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { useGoogleLogin } from '@react-oauth/google'
@@ -12,6 +13,7 @@ import GoogleLogo from '../assets/google.png'
 import KakaoLogo from '../assets/kakao.png'
 
 export default function SignIn() {
+  const router = useRouter()
   const [account, setAccount] = useState('')
 
   const getGoogleOAuth = useGoogleLogin({
@@ -22,10 +24,12 @@ export default function SignIn() {
           Authorization: `Bearer ${tokenResponse.access_token}`,
         },
       })
-      .then((res: { data: { email: any } }) => {
-        alert(res.data.email);
+      .then((res: { data: { name: string } }) => {
+        console.log('login successful by google, ' + res.data.name)
+        sessionStorage.setItem('Account', res.data.name)
+        router.push('/')
       })
-      .catch((err: Error) => {
+      .catch(() => {
         alert("oAuth token expired");
         // window.location.assign("http://localhost:3000");
       });
@@ -46,9 +50,10 @@ export default function SignIn() {
         Kakao.API.request({
           url: "/v2/user/me",
           success(res: any) {
-            alert(JSON.stringify(res));
             const kakaoAccount = res.kakao_account;
-            console.log(kakaoAccount);
+            console.log('login successful by kakao, ' + kakaoAccount.profile.nickname)
+            sessionStorage.setItem('Account', kakaoAccount.profile.nickname)
+            router.push('/')
           },
           fail(error: any) {
             console.log(error);

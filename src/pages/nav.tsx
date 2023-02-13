@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Fragment, useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRightToBracket } from '@fortawesome/free-solid-svg-icons'
+import { faRightToBracket, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
 import Logo from '../assets/logo.png'
 import Link from 'next/link'
@@ -10,6 +10,9 @@ import Link from 'next/link'
 export default function Nav() {
   const [ScrollY, setScrollY] = useState(0)
   const [isUnder, setIsUnder] = useState("_nav_")
+
+  const [AccName, setAccName] = useState(sessionStorage.getItem("Account"))
+  // const [isSigned, setIsSigned] = useState(false)
   
   const handleFollow = () => {
     setScrollY(window.pageYOffset)
@@ -36,13 +39,20 @@ export default function Nav() {
     <Fragment>
       { isUnder ?
       <nav className={ isUnder }>
+        <Link className='nav-link' href={'/'}>
           <div className="header-title">
             <Image className='logo' src={Logo} alt={''} />
-            <div className="nav-title">navbar</div>
+            <div className="nav-title">애뉴미티</div>
           </div>
+        </Link>
+        { AccName == "" || AccName == null ?
         <Link href={'/signin'}>
           <FontAwesomeIcon className="icon" icon={faRightToBracket} />
         </Link>
+        : <button className='signOut' onClick={() => { sessionStorage.setItem("Account", ""); setAccName("") }}>
+            <div className="user-name">{ AccName }</div>
+            <FontAwesomeIcon className="icon-out" icon={faRightFromBracket} />
+          </button> }
       </nav>
       : null }
     </Fragment>
