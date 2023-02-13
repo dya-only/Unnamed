@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRightToBracket } from '@fortawesome/free-solid-svg-icons'
 
 import Logo from '../assets/logo.png'
+import Link from 'next/link'
 
 export default function Nav() {
   const [ScrollY, setScrollY] = useState(0)
@@ -16,8 +17,8 @@ export default function Nav() {
     if (ScrollY > 100) {
       setIsUnder("_nav_")
     } else {
-      // setIsUnder("_nav")
-      setIsUnder("_nav_")
+      // setIsUnder("_nav")  // use scroll down view
+      setIsUnder("_nav_")  // fixed view
     }
   }
 
@@ -35,11 +36,13 @@ export default function Nav() {
     <Fragment>
       { isUnder ?
       <nav className={ isUnder }>
-        <div className="header-title">
-          <Image className='logo' src={Logo} alt={''} />
-          <div className="nav-title">애뉴미티</div>
-        </div>
-        <FontAwesomeIcon className="icon" icon={faRightToBracket} />
+          <div className="header-title">
+            <Image className='logo' src={Logo} alt={''} />
+            <div className="nav-title">navbar</div>
+          </div>
+        <Link href={'/signin'}>
+          <FontAwesomeIcon className="icon" icon={faRightToBracket} />
+        </Link>
       </nav>
       : null }
     </Fragment>

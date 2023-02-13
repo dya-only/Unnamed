@@ -29,11 +29,13 @@ body {
   font-size: 14px;
   font-weight: bold;
   margin-left: 6px;
+  color: white;
+  text-decoration: none;
 }
 .logo {
   width: 13px;
   height:13px;
-  padding-top: 4px;
+  padding-top: 2.6px;
 }
 
 .nav {
@@ -88,6 +90,68 @@ body {
   transform: translateY(0px);
   transition: all .5s;
 }
+
+.flex-el {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sign-title {
+  font-size: 25px;
+  margin-bottom: 20px;
+  /* font-weight: bold; */
+}
+
+.google-logo {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+}
+.google-btn {
+  background: white;
+  color:rgba(27, 26, 37, 0.85);
+  font-weight: bold;
+  font-size: 15px;
+  padding: 8px;
+  width: 300px;
+  border-radius: 10px;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  margin: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.kakao-btn {
+  background: rgb(255, 222, 73);
+  color:rgba(27, 26, 37, 0.85);
+  font-weight: bold;
+  font-size: 15px;
+  padding: 8px;
+  width: 300px;
+  border-radius: 10px;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  margin: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .oAuth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
 
 .btn {
   /* background: #2f78ff; */
