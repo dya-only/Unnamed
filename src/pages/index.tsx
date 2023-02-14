@@ -3,6 +3,9 @@ import { Fragment, useEffect, useRef, useState } from 'react'
 import laftel from 'laftel.js'
 import ReactPlayer from 'react-player'
 import axios from 'axios'
+import sqlite3 from 'sqlite3'
+// import { PrismaClient } from '@prisma/client'
+// const prisma = new PrismaClient
 import { useDrag } from 'react-use-gesture'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight, faXmark, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
@@ -109,7 +112,7 @@ export default function Home({ daily, images }: any) {
   const getSearch = async () => {
     setTimeout(()=>{
       setWindowLoad(false)
-    }, 1500)
+    }, 2000)
 
     const res = await fetch(`http://localhost:3000/api/search?name=${searchValue2}`, {
       method: 'GET',
@@ -313,7 +316,7 @@ export default function Home({ daily, images }: any) {
 
         {/* Search Bar */}
         <div className="search">
-          <input className='search-input' type="text" onChange={(e: any) => searchValue2 = (e.target.value)} />
+          <input className='search-input' type="text" placeholder='제목으로 검색해보세요' onChange={(e: any) => searchValue2 = (e.target.value)} />
           <button className='search-btn' onClick={() => { setWindowLoad(true); getSearch(); setOpenSearch(true) } }>
             <FontAwesomeIcon className='search-icon' icon={faMagnifyingGlass} />
           </button>
@@ -323,7 +326,7 @@ export default function Home({ daily, images }: any) {
         <div className="cards">
           <div className="tests">
             <div className="card-sub">
-              <div className="bg-info-text">신작 애니</div>
+              <div className="bg-info-text">오늘의 신작 애니</div>
             </div>
             {/* <button className="change-btn">표시 변경</button> */}
           </div>
@@ -361,6 +364,14 @@ export async function getStaticProps() {
     },
   })
   const data = await res.json()
+  
+  // const db = new sqlite3.Database('db/dev.db')
+  //   db.run(`DROP TABLE user `, (err) => {
+  //     if (err) {
+  //       return console.error(err.message)
+  //     }
+  //   })
+  //   db.close()
 
   return { props: { daily: data.data, images: data.images } }
 }

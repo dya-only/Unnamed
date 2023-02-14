@@ -5,7 +5,7 @@ import SearchYT from 'youtube-search'
 
 const opts: SearchYT.YouTubeSearchOptions = {
   maxResults: 1,
-  key: "AIzaSyBGJ0_EWoFbTmXu6q19jmqBDGOQ46hqxcY"
+  key: process.env.YOUTUBE_API_KEY
 }
 
 type Data = {

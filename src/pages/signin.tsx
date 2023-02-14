@@ -18,21 +18,47 @@ export default function SignIn() {
 
   const getGoogleOAuth = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      console.log(tokenResponse)
+
       await axios.get("https://www.googleapis.com/oauth2/v2/userinfo", {
         headers: {
           Authorization: `Bearer ${tokenResponse.access_token}`,
         },
       })
-      .then((res: { data: { name: string } }) => {
-        console.log('login successful by google, ' + res.data.name)
-        sessionStorage.setItem('Account', res.data.name)
-        router.push('/')
+      .then( async (res: { data: { name: string, email: string } }) => {
+        
+        const prisma_res = await fetch(`http://localhost:3000/api/db/create?email=${res.data.email}&name=${res.data.name}`, {
+          method: 'GET',
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        const data = await prisma_res.json()
+        console.log(await data.res)
+
+        if (!await data.res) {
+          alert("다시 만나서 반가워요, " + res.data.name + "님!")
+          sessionStorage.setItem('Account', res.data.name)
+          router.push('/')
+        } else {
+          alert("환영합니다, " + res.data.name + "님!")
+          sessionStorage.setItem('Account', res.data.name)
+          router.push('/')
+        }
+
+        // const _prisma_res = await fetch(`http://localhost:3000/api/db/view?scale=all`, {
+        //   method: 'GET',
+        //   headers: {
+        //       "Content-Type": "application/json",
+        //   },
+        // })
+        // const _data = await _prisma_res.json()
+        // console.log(await _data.res)
+        
+        // console.log('login successful by google, ' + res.data.email)
       })
       .catch(() => {
-        alert("oAuth token expired");
-        // window.location.assign("http://localhost:3000");
-      });
+        alert("oAuth token expired")
+      })
     },
     onError: errorResponse => console.log(errorResponse)
   })
@@ -49,16 +75,26 @@ export default function SignIn() {
       success() {
         Kakao.API.request({
           url: "/v2/user/me",
-          success(res: any) {
+          async success(res: any) {
             const kakaoAccount = res.kakao_account;
-            console.log('login successful by kakao, ' + kakaoAccount.profile.nickname)
+
+            // const prisma_res = await fetch(`http://localhost:3000/api/db/create?email=${kakaoAccount.profile.email}&name=${res.data.name}`, {
+            //   method: 'GET',
+            //   headers: {
+            //     "Content-Type": "application/json",
+            //   },
+            // })
+            // const data = await prisma_res.json()
+            // console.log(await data.res)
+
+            console.log('login successful by kakao, ' + await res.kakao_account.email)
             sessionStorage.setItem('Account', kakaoAccount.profile.nickname)
             router.push('/')
           },
           fail(error: any) {
-            console.log(error);
+            console.log(error)
           },
-        });
+        })
       },
       fail(error: any) {
         console.log(error);
@@ -104,3 +140,16 @@ export default function SignIn() {
     </Fragment>
   )
 }
+
+// export async function getStaticProps() {
+//   const res = await fetch('http://localhost:3000/api/db/view', {
+//     method: 'GET',
+//     headers: {
+//         "Content-Type": "application/json",
+//     },
+//   })
+//   const data = await res.json()
+//   console.log(data)
+
+//   return { props: { daily: data.res } }
+// }

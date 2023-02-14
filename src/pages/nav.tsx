@@ -11,7 +11,7 @@ export default function Nav() {
   const [ScrollY, setScrollY] = useState(0)
   const [isUnder, setIsUnder] = useState("_nav_")
 
-  const [AccName, setAccName] = useState(sessionStorage.getItem("Account"))
+  const [AccName, setAccName] = useState(typeof window !== 'undefined' ? sessionStorage.getItem('Account') : null)
   // const [isSigned, setIsSigned] = useState(false)
   
   const handleFollow = () => {
