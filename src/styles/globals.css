@@ -493,7 +493,7 @@ body {
 }
 
 .title-window {
-  width: 500px;
+  width: 600px;
   height: 20px;
   padding: 10px;
   border-radius: 15px 15px 0px 0px;
@@ -527,7 +527,7 @@ body {
 }
 
 .info-window {
-  width: 500px;
+  width: 600px;
   height: 500px;
   padding: 10px;
   background: #ffffff;
@@ -547,6 +547,12 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+}
+
+.card-btn-contain {
+  display: flex;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -600,7 +606,7 @@ body {
   outline: 0;
   border: 0;
 
-  margin-top: 10px;
+  margin: 10px 10px 0px 0px;
   border-radius: 8px;
   padding: 8px 8px 8px 8px;
 

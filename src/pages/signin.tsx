@@ -33,15 +33,16 @@ export default function SignIn() {
           },
         })
         const data = await prisma_res.json()
-        console.log(await data.res)
 
         if (!await data.res) {
           alert("다시 만나서 반가워요, " + res.data.name + "님!")
           sessionStorage.setItem('Account', res.data.name)
+          sessionStorage.setItem('Email', res.data.email)
           router.push('/')
         } else {
           alert("환영합니다, " + res.data.name + "님!")
           sessionStorage.setItem('Account', res.data.name)
+          sessionStorage.setItem('Email', res.data.email)
           router.push('/')
         }
 

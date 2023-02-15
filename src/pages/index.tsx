@@ -157,6 +157,18 @@ export default function Home({ daily, images }: any) {
     }
   }
 
+  const addWish = async (id: string) => {
+    const res = await fetch(`http://localhost:3000/api/db/wish?act=add&id=${id}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+
+    const data = await res.json()
+    console.log(data)
+  }
+
   useEffect(() => {
     const day = new Date()
     const WeekDay = ['일', '월', '화', '수', '목', '금', '토']
@@ -206,10 +218,16 @@ export default function Home({ daily, images }: any) {
                       <div className="lighter">방영 요일: <strong>{ selectedInfo.distribute }</strong></div>
                       <div className="lighter">출시 구분: <strong>{ selectedInfo.year_quarter }</strong></div>
                       <div className="lighter">장르: <strong>{ selectedInfo.genres[0] } · { selectedInfo.genres[1] }</strong></div>
-                      <button className='play' onClick={ () => window.open(`https://laftel.net/item/${selectedInfo.id}`) }>
-                        <div className="laftel-logo"></div>
-                        <div className="play-text">보러가기</div>
-                      </button>
+                      <div className="card-btn-contain">
+                        <button className='play' onClick={ () => window.open(`https://laftel.net/item/${selectedInfo.id}`) }>
+                          <div className="laftel-logo"></div>
+                          <div className="play-text">보러가기</div>
+                        </button>
+                        <button className='play' onClick={ () => addWish(selectedInfo.id) }>
+                          {/* <div className="laftel-logo"></div> */}
+                          <div className="play-text">보고싶다</div>
+                        </button>
+                      </div>
                     </div>
                   </div>
                   <div className="info-content">{ selectedInfo.content }</div>
