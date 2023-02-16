@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import { Fragment, useEffect, useRef, useState } from 'react'
-import laftel from 'laftel.js'
 import ReactPlayer from 'react-player'
 import axios from 'axios'
 import sqlite3 from 'sqlite3'
