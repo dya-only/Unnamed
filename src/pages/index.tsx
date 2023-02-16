@@ -275,7 +275,7 @@ export default function Home({ daily, images }: any) {
                         <div className="search-title">{ selectedInfo.name }</div>
                         <div className="search-tags-info">
                           { selectedInfo.genres.map((el: any, idx: number) => (
-                            <div className="search-tag">#{el}</div>
+                            <div key={idx} className="search-tag">#{el}</div>
                           )) }
                         </div>
                         <div className="lighter">방영 요일: <strong>{ selectedInfo.distribute || '정보없음' }</strong></div>
