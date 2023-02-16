@@ -212,7 +212,7 @@ export default function Home({ daily, images }: any) {
                       <div className="info-title">{ selectedInfo.name }</div>
                       <div className="tags-info">
                         { selectedInfo.genres.map((el: any, idx: number) => (
-                          <div className="tag">#{el}</div>
+                          <div key={idx} className="tag">#{el}</div>
                         )) }
                       </div>
                       <div className="lighter">방영 요일: <strong>{ selectedInfo.distribute }</strong></div>
@@ -293,8 +293,8 @@ export default function Home({ daily, images }: any) {
                     <div className="series-title">같은 시리즈의 작품</div>
                     <div className="series-contain">
                       { searchSeries.map((el: any, idx: number) => (
-                          <button className="search-card" onClick={() => getChangeOnSearch(el.name)}>
-                            <img className='search-card-img' src={ el.images[0].img_url || CardImg } />
+                          <button key={idx} className="search-card" onClick={() => getChangeOnSearch(el.name)}>
+                            <img className='search-card-img' src={ el.images[0].img_url || CardImg } alt='' />
                             <div className="text-contain">
                               <div className="search-card-title">{ el.name }</div>
                             </div>
@@ -305,8 +305,8 @@ export default function Home({ daily, images }: any) {
                     <div className="series-title">비슷한 작품</div>
                     <div className="series-contain">
                       { searchRelated.map((el: any, idx: number) => (
-                          <button className="search-card" onClick={() => getChangeOnSearch(el.name)}>
-                            <img className='search-card-img' src={ el.images[0].img_url || CardImg } />
+                          <button key={idx} className="search-card" onClick={() => getChangeOnSearch(el.name)}>
+                            <img className='search-card-img' src={ el.images[0].img_url || CardImg } alt='' />
                             <div className="text-contain">
                               <div className="search-card-title">{ el.name }</div>
                             </div>
@@ -355,8 +355,8 @@ export default function Home({ daily, images }: any) {
             </button>
             <div className="card-contain" ref={horizontalScrollRef}>
               { daily.map((el: any, idx: number) => (
-                <button className="card" onClick={ () => { console.log(el.title); PropTitle = el.title; getInfo(); setOpen(true) } }>
-                  <img className='card-img' src={ images[idx] || CardImg } />
+                <button key={idx} className="card" onClick={ () => { console.log(el.title); PropTitle = el.title; getInfo(); setOpen(true) } }>
+                  <img className='card-img' src={ images[idx] || CardImg } alt='' />
                   <div className="text-contain">
                     <div className="card-title">{ el.title }</div>
                   </div>
