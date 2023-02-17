@@ -27,7 +27,7 @@ export default function SignIn() {
       })
       .then( async (res: { data: { name: string, email: string } }) => {
         
-        const prisma_res = await fetch(`http://localhost:3000/api/db/create?email=${res.data.email}&name=${res.data.name}`, {
+        const prisma_res = await fetch(`https://annumity.vercel.app/api/db/create?email=${res.data.email}&name=${res.data.name}`, {
           method: 'GET',
           headers: {
             "Content-Type": "application/json",
