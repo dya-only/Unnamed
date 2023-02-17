@@ -82,7 +82,7 @@ export default function Home({ daily, images }: any) {
       setWindowLoad(false)
     }, 1000)
 
-    const res = await fetch(`https://annumity.vercel.app/api/info?name=${PropTitle}`, {
+    const res = await fetch(`http://localhost:3000/api/info?name=${PropTitle}`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -113,7 +113,7 @@ export default function Home({ daily, images }: any) {
       setWindowLoad(false)
     }, 2000)
 
-    const res = await fetch(`https://annumity.vercel.app/api/search?name=${searchValue2}`, {
+    const res = await fetch(`http://localhost:3000/api/search?name=${searchValue2}`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -157,7 +157,7 @@ export default function Home({ daily, images }: any) {
   }
 
   const addWish = async (id: string) => {
-    const res = await fetch(`https://annumity.vercel.app/api/db/wish?act=add&id=${id}`, {
+    const res = await fetch(`http://localhost:3000/api/db/wish?act=add&id=${id}`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -374,7 +374,7 @@ export default function Home({ daily, images }: any) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch('https://annumity.vercel.app/api/daily', {
+  const res = await fetch('http://localhost:3000/api/daily', {
     method: 'GET',
     headers: {
         "Content-Type": "application/json",

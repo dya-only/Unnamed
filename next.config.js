@@ -2,6 +2,9 @@
 
 const nextConfig = {
   reactStrictMode: true,
+  experimental: {
+    enableUndici: true
+  }
 }
 
 module.exports = nextConfig

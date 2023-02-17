@@ -20,7 +20,7 @@ export default async function handler(
 
   const Week = ['일', '월', '화', '수', '목', '금', '토']
   
-  Xlsx('src/assets/2023-1.xlsx', { map }).then(async ({ rows }: any) => {
+  Xlsx(`src/assets/2023-1.xlsx`, { map }).then(async ({ rows }: any) => {
     const Today = Week[new Date().getDay()]
     let imgs: any = []
     let animes: any = []
