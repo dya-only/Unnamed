@@ -373,7 +373,7 @@ export default function Home({ daily, images }: any) {
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const res = await fetch('http://localhost:3000/api/daily', {
     method: 'GET',
     headers: {
