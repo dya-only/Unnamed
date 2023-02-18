@@ -27,13 +27,15 @@ export default function SignIn() {
       })
       .then( async (res: { data: { name: string, email: string } }) => {
         
-        const prisma_res = await fetch(`http://localhost:3000/api/db/create?email=${res.data.email}&name=${res.data.name}`, {
-          method: 'GET',
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        const data = await prisma_res.json()
+        // const prisma_res = await fetch(`http://localhost:3000/api/db/create?email=${res.data.email}&name=${res.data.name}`, {
+        //   method: 'GET',
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        // })
+        // const data = await prisma_res.json()
+        const prisma_res = await axios.get(`http://localhost:3000/api/db/create?email=${res.data.email}&name=${res.data.name}`)
+        const data = await prisma_res.data
 
         if (!await data.res) {
           alert("다시 만나서 반가워요, " + res.data.name + "님!")

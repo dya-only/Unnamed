@@ -82,13 +82,16 @@ export default function Home({ daily, images }: any) {
       setWindowLoad(false)
     }, 1000)
 
-    const res = await fetch(`http://localhost:3000/api/info?name=${PropTitle}`, {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-    const data = await res.json()
+    // const res = await fetch(`http://localhost:3000/api/info?name=${PropTitle}`, {
+    //   method: 'GET',
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // })
+    // const data = await res.json()
+    const res = await axios.get(`http://localhost:3000/api/info?name=${PropTitle}`)
+    const data = await res.data
+
     console.log(data)
 
     let genres_temp = []
@@ -113,14 +116,17 @@ export default function Home({ daily, images }: any) {
       setWindowLoad(false)
     }, 2000)
 
-    const res = await fetch(`http://localhost:3000/api/search?name=${searchValue2}`, {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    // const res = await fetch(`http://localhost:3000/api/search?name=${searchValue2}`, {
+    //   method: 'GET',
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // })
 
-    const data = await res.json()
+    // const data = await res.json()
+
+    const res = await axios.get(`http://localhost:3000/api/search?name=${searchValue2}`)
+    const data = await res.data
 
     if (data.anime != 'not found') {
       setSearchSel({
@@ -156,15 +162,17 @@ export default function Home({ daily, images }: any) {
     }
   }
 
-  const addWish = async (id: string) => {
-    const res = await fetch(`http://localhost:3000/api/db/wish?act=add&id=${id}`, {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+  const addWish = async (id: string, email: string) => {
+    // const res = await fetch(`http://localhost:3000/api/db/wish?email=${email}&act=add&id=${id}`, {
+    //   method: 'GET',
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // })
 
-    const data = await res.json()
+    // const data = await res.json()
+    const res = await axios.get(`http://localhost:3000/api/db/wish?email=${email}&act=add&id=${id}`)
+    const data = await res.data
     console.log(data)
   }
 
@@ -222,7 +230,7 @@ export default function Home({ daily, images }: any) {
                           <div className="laftel-logo"></div>
                           <div className="play-text">보러가기</div>
                         </button>
-                        <button className='play' onClick={ () => addWish(selectedInfo.id) }>
+                        <button className='play' onClick={ () => addWish(selectedInfo.id, sessionStorage.getItem('Email')) }>
                           {/* <div className="laftel-logo"></div> */}
                           <div className="play-text">보고싶다</div>
                         </button>
@@ -374,21 +382,16 @@ export default function Home({ daily, images }: any) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch('http://localhost:3000/api/daily', {
-    method: 'GET',
-    headers: {
-        "Content-Type": "application/json",
-    },
-  })
-  const data = await res.json()
-  
-  // const db = new sqlite3.Database('db/dev.db')
-  //   db.run(`DROP TABLE user `, (err) => {
-  //     if (err) {
-  //       return console.error(err.message)
-  //     }
-  //   })
-  //   db.close()
+  // const res = await fetch('http://localhost:3000/api/daily', {
+  //   method: 'GET',
+  //   headers: {
+  //       "Content-Type": "application/json",
+  //   },
+  // })
+  // const data = await res.json()
+
+  const res = await axios.get('http://localhost:3000/api/daily')
+  const data = await res.data
 
   return { props: { daily: data.data, images: data.images } }
 }
