@@ -34,7 +34,7 @@ export default function SignIn() {
         //   },
         // })
         // const data = await prisma_res.json()
-        const prisma_res = await axios.get(`http://localhost:3000/api/db/create?email=${res.data.email}&name=${res.data.name}`)
+        const prisma_res = await axios.get(`https://annumity.vercel.app/api/db/create?email=${res.data.email}&name=${res.data.name}`)
         const data = await prisma_res.data
 
         if (!await data.res) {

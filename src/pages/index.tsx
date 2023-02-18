@@ -89,7 +89,7 @@ export default function Home({ daily, images }: any) {
     //   },
     // })
     // const data = await res.json()
-    const res = await axios.get(`http://localhost:3000/api/info?name=${PropTitle}`)
+    const res = await axios.get(`https://annumity.vercel.app/api/info?name=${PropTitle}`)
     const data = await res.data
 
     console.log(data)
@@ -125,7 +125,7 @@ export default function Home({ daily, images }: any) {
 
     // const data = await res.json()
 
-    const res = await axios.get(`http://localhost:3000/api/search?name=${searchValue2}`)
+    const res = await axios.get(`https://annumity.vercel.app/api/search?name=${searchValue2}`)
     const data = await res.data
 
     if (data.anime != 'not found') {
@@ -171,7 +171,7 @@ export default function Home({ daily, images }: any) {
     // })
 
     // const data = await res.json()
-    const res = await axios.get(`http://localhost:3000/api/db/wish?email=${email}&act=add&id=${id}`)
+    const res = await axios.get(`https://annumity.vercel.app/api/db/wish?email=${email}&act=add&id=${id}`)
     const data = await res.data
     console.log(data)
   }
@@ -390,7 +390,7 @@ export async function getServerSideProps() {
   // })
   // const data = await res.json()
 
-  const res = await axios.get('http://localhost:3000/api/daily')
+  const res = await axios.get('https://annumity.vercel.app/api/daily')
   const data = await res.data
 
   return { props: { daily: data.data, images: data.images } }
